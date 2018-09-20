@@ -5,13 +5,13 @@ import com.factory.entities.Workshop;
 import com.factory.repos.RoomRepo;
 import com.factory.repos.WorkshopRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @Controller
 public class RoomController {
@@ -30,6 +30,22 @@ public class RoomController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/room/{id}", method=GET)
+    public Map<String, Object> getRoom(@PathVariable("id") long id) {
+
+        Room room = roomRepo.findById(id).orElse(null);
+
+        Map<String, Object> mapRoom = new HashMap<>();
+
+        mapRoom.put("id", room.getRoomId());
+        mapRoom.put("Name", room.getTitle());
+        List<Long> tools = new ArrayList<>();
+        room.getTools().forEach((tool)-> tools.add(tool.getId()));
+        mapRoom.put("Rooms", tools);
+        return mapRoom;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/room", method=POST)
     public String addRoom(@RequestParam String title, @RequestParam Long workshopId) {
         Workshop workshop = workshopRepo.findById(workshopId).orElse(null);
@@ -41,5 +57,28 @@ public class RoomController {
         else {
             return "Workshop with this Id does not exist!";
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/room/{id}", method=PUT)
+    public ResponseEntity updateRoom(@PathVariable("id") long id, @RequestParam String title) {
+
+        Room room = roomRepo.findById(id).orElse(null);
+
+        room.setTitle(title);
+        roomRepo.save(room);
+
+        return  ResponseEntity.ok().build();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/room/{id}", method=DELETE)
+    public ResponseEntity deleteRoom(@PathVariable("id") long id) {
+
+        Room room = roomRepo.findById(id).orElse(null);
+
+        roomRepo.delete(room);
+
+        return  ResponseEntity.ok().build();
     }
 }

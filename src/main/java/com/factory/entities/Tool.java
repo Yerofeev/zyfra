@@ -11,8 +11,8 @@ public class Tool {
 
     private String Spec;
 
-    @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "roomId", referencedColumnName = "roomId")
+    @ManyToOne
+    @JoinColumn(name = "roomId", nullable = true, referencedColumnName = "roomId")
     private Room room;
 
     public Tool(String Spec, Room room) {

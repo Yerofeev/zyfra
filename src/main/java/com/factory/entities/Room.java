@@ -14,12 +14,12 @@ public class Room {
 
     private String Title;
 
-    @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "WorkshopId", referencedColumnName = "WorkshopId")
+    @ManyToOne
+    @JoinColumn(name = "WorkshopId", nullable = true, referencedColumnName = "WorkshopId")
     @JsonIgnore
     private Workshop workshop;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy="room",cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy="room")
     private List<Tool> tools;
 
     public Workshop getWorkshop() {
