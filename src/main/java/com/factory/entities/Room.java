@@ -1,18 +1,22 @@
 package com.factory.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Room {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer roomId;
+    private Long roomId;
 
     private String Title;
 
     @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "WorkshopId", referencedColumnName = "WorkshopId")
+    @JsonIgnore
     private Workshop workshop;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy="room",cascade = CascadeType.ALL)
@@ -25,16 +29,14 @@ public class Room {
     public void setWorkshop(Workshop workshop) {
         this.workshop = workshop;
     }
-/*
+
     public List<Tool> getTools() {
         return tools;
     }
 
     public void setTools(List<Tool> tools) {
         this.tools = tools;
-    }*/
-
-
+    }
 
     public Room(String Title, Workshop workshop) {
         this.Title = Title;
@@ -44,11 +46,11 @@ public class Room {
     public Room(){
     }
 
-    public Integer getRoomId() {
+    public Long getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Integer roomId) {
+    public void setRoomId(Long roomId) {
         this.roomId = roomId;
     }
 
