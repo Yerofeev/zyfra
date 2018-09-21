@@ -5,6 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,15 +17,25 @@ public class Tool {
 
     private String Spec;
 
+    public Integer getNumberOfSensors() {
+        return numberOfSensors;
+    }
+
+    public void setNumberOfSensors(Integer numberOfSensors) {
+        this.numberOfSensors = numberOfSensors;
+    }
+
+    private Integer numberOfSensors;
+
     @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "tool")
     @Fetch(value = FetchMode.SUBSELECT)
-    private Set<Sensor> sensors;
+    private List<Sensor> sensors;
 
-    public Set<Sensor> getSensors() {
+    public List<Sensor> getSensors() {
         return sensors;
     }
 
-    public void setSensors(Set<Sensor> sensors) {
+    public void setSensors(List<Sensor> sensors) {
         this.sensors = sensors;
     }
 
@@ -43,9 +54,10 @@ public class Tool {
 
 
 
-    public Tool(String Spec, Room room) {
+    public Tool(String Spec, Integer numberOfSensors, Room room) {
         this.Spec = Spec;
         this.room = room;
+        this.numberOfSensors = numberOfSensors;
     }
 
     public Tool(){

@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -38,7 +36,7 @@ public class ToolController {
     @RequestMapping(value = "/tool/{id}", method=GET)
     public Map<String, Object> getTool(@PathVariable("id") long id) {
 
-        Map<String, Object> mapTool = new HashMap<>();
+        Map<String, Object> mapTool = new LinkedHashMap<>();
 
         Tool tool = toolRepo.findById(id).orElse(null);
 
@@ -48,16 +46,21 @@ public class ToolController {
 
         mapTool.put("id", tool.getToolId());
         mapTool.put("Name", tool.getSpec());
+        mapTool.put("NumberOfSensors", tool.getNumberOfSensors());
+
+        List<Long> sensors = new ArrayList<>();
+        tool.getSensors().forEach((sensor)-> sensors.add(sensor.getSensorId()));
+        mapTool.put("Sensors", sensors);
 
         return mapTool;
     }
 
     @ResponseBody
     @RequestMapping(value = "/tool", method=POST)
-    public String addTool(@RequestParam String spec, @RequestParam Long roomId) {
+    public String addTool(@RequestParam String spec, @RequestParam Integer numberOfSensors, @RequestParam Long roomId) {
         Room room = roomRepo.findById(roomId).orElse(null);
         if (room != null) {
-            Tool tool = new Tool(spec, room);
+            Tool tool = new Tool(spec, numberOfSensors, room);
             toolRepo.save(tool);
             return spec;
         }

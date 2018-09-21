@@ -11,24 +11,24 @@ public class Sensor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long sensorId;
 
-    private String Docs;
+    private String docs;
 
-    private String Units;
+    private String units;
 
     public String getUnits() {
-        return Units;
+        return units;
     }
 
     public void setUnits(String units) {
-        Units = units;
+        this.units = units;
     }
 
     public Integer getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(Integer price) {
-        Price = price;
+        this.price = price;
     }
 
     public Tool getTool() {
@@ -39,12 +39,12 @@ public class Sensor {
         this.tool = tool;
     }
 
-    private Integer Price;
+    private Integer price;
 
     public Sensor(String docs, String units, Integer price, Tool tool) {
-        Docs = docs;
-        Units = units;
-        Price = price;
+        this.docs = docs;
+        this.units = units;
+        this.price = price;
         this.tool = tool;
     }
 
@@ -66,11 +66,11 @@ public class Sensor {
     }
 
     public String getDocs() {
-        return Docs;
+        return docs;
     }
 
     public void setDocs(String docs) {
-        this.Docs = docs;
+        this.docs = docs;
     }
 
 }

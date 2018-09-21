@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class SensorController {
     @RequestMapping(value = "/sensor/{id}", method=GET)
     public Map<String, Object> getSensor(@PathVariable("id") long id) {
 
-        Map<String, Object> mapSensor = new HashMap<>();
+        Map<String, Object> mapSensor = new LinkedHashMap<>();
 
         Sensor sensor = sensorRepo.findById(id).orElse(null);
 

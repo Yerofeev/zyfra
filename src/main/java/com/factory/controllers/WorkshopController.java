@@ -39,7 +39,7 @@ public class WorkshopController {
     @RequestMapping(value = "/workshop/{id}", method=GET)
     public Map<String, Object> getWorkshop(@PathVariable("id") long id) {
 
-        Map<String, Object> mapWorkshop = new HashMap<>();
+        Map<String, Object> mapWorkshop = new LinkedHashMap<>();
 
         Workshop workshop = workshopRepo.findById(id).orElse(null);
 
@@ -47,11 +47,14 @@ public class WorkshopController {
             return mapWorkshop;
         }
 
+        mapWorkshop.put("id", workshop.getWorkshopId());
+        mapWorkshop.put("Name", workshop.getName());
+        mapWorkshop.put("EmployeeCount", workshop.getEmployeeCount());
+
         List<Long> rooms = new ArrayList<>();
         workshop.getRooms().forEach((room)-> rooms.add(room.getRoomId()));
         mapWorkshop.put("Rooms", rooms);
-        mapWorkshop.put("id", workshop.getWorkshopId());
-        mapWorkshop.put("Name", workshop.getName());
+
 
         return mapWorkshop;
     }

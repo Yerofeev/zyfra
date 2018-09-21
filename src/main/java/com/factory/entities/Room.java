@@ -17,6 +17,16 @@ public class Room {
 
     private String Title;
 
+    public Integer getSquare() {
+        return Square;
+    }
+
+    public void setSquare(Integer square) {
+        Square = square;
+    }
+
+    private Integer Square;
+
     @ManyToOne
     @JoinColumn(name = "WorkshopId", nullable = true, referencedColumnName = "WorkshopId")
     @JsonIgnore
@@ -24,7 +34,7 @@ public class Room {
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "room")
     @Fetch(value = FetchMode.SUBSELECT)
-    private Set<Tool> tools;
+    private List<Tool> tools;
 
     public Workshop getWorkshop() {
         return workshop;
@@ -34,16 +44,17 @@ public class Room {
         this.workshop = workshop;
     }
 
-    public Set<Tool> getTools() {
+    public List<Tool> getTools() {
         return tools;
     }
 
-    public void setTools(Set<Tool> tools) {
+    public void setTools(List<Tool> tools) {
         this.tools = tools;
     }
 
-    public Room(String Title, Workshop workshop) {
+    public Room(String Title, Integer Square, Workshop workshop) {
         this.Title = Title;
+        this.Square = Square;
         this.workshop = workshop;
     }
 

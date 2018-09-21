@@ -33,7 +33,7 @@ public class RoomController {
     @RequestMapping(value = "/room/{id}", method=GET)
     public Map<String, Object> getRoom(@PathVariable("id") long id) {
 
-        Map<String, Object> mapRoom = new HashMap<>();
+        Map<String, Object> mapRoom = new LinkedHashMap<>();
 
         Room room = roomRepo.findById(id).orElse(null);
 
@@ -41,21 +41,22 @@ public class RoomController {
             return mapRoom;
         }
 
+        mapRoom.put("id", room.getRoomId());
+        mapRoom.put("Name", room.getTitle());
+        mapRoom.put("Square", room.getSquare());
         List<Long> tools = new ArrayList<>();
         room.getTools().forEach((tool)-> tools.add(tool.getToolId()));
         mapRoom.put("Rooms", tools);
-        mapRoom.put("id", room.getRoomId());
-        mapRoom.put("Name", room.getTitle());
 
         return mapRoom;
     }
 
     @ResponseBody
     @RequestMapping(value = "/room", method=POST)
-    public String addRoom(@RequestParam String title, @RequestParam Long workshopId) {
+    public String addRoom(@RequestParam String title, @RequestParam Integer square, @RequestParam Long workshopId) {
         Workshop workshop = workshopRepo.findById(workshopId).orElse(null);
         if (workshop != null) {
-            Room room = new Room(title, workshop);
+            Room room = new Room(title, square, workshop);
             roomRepo.save(room);
             return title;
         }
