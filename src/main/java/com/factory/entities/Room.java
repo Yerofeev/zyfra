@@ -1,9 +1,12 @@
 package com.factory.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Room {
@@ -19,8 +22,9 @@ public class Room {
     @JsonIgnore
     private Workshop workshop;
 
-    @OneToMany(orphanRemoval = true)
-    private List<Tool> tools;
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "room")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private Set<Tool> tools;
 
     public Workshop getWorkshop() {
         return workshop;
@@ -30,11 +34,11 @@ public class Room {
         this.workshop = workshop;
     }
 
-    public List<Tool> getTools() {
+    public Set<Tool> getTools() {
         return tools;
     }
 
-    public void setTools(List<Tool> tools) {
+    public void setTools(Set<Tool> tools) {
         this.tools = tools;
     }
 

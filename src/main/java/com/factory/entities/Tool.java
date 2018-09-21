@@ -1,7 +1,11 @@
 package com.factory.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Tool {
@@ -12,14 +16,15 @@ public class Tool {
 
     private String Spec;
 
-    @OneToMany(orphanRemoval = true)
-    private List<Sensor> sensors;
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "tool")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private Set<Sensor> sensors;
 
-    public List<Sensor> getSensors() {
+    public Set<Sensor> getSensors() {
         return sensors;
     }
 
-    public void setSensors(List<Sensor> sensors) {
+    public void setSensors(Set<Sensor> sensors) {
         this.sensors = sensors;
     }
 
@@ -33,6 +38,7 @@ public class Tool {
 
     @ManyToOne
     @JoinColumn(name = "roomId", nullable = true, referencedColumnName = "roomId")
+    @JsonIgnore
     private Room room;
 
 

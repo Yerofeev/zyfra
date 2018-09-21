@@ -33,15 +33,20 @@ public class RoomController {
     @RequestMapping(value = "/room/{id}", method=GET)
     public Map<String, Object> getRoom(@PathVariable("id") long id) {
 
-        Room room = roomRepo.findById(id).orElse(null);
-
         Map<String, Object> mapRoom = new HashMap<>();
 
-        mapRoom.put("id", room.getRoomId());
-        mapRoom.put("Name", room.getTitle());
+        Room room = roomRepo.findById(id).orElse(null);
+
+        if (room == null){
+            return mapRoom;
+        }
+
         List<Long> tools = new ArrayList<>();
         room.getTools().forEach((tool)-> tools.add(tool.getToolId()));
         mapRoom.put("Rooms", tools);
+        mapRoom.put("id", room.getRoomId());
+        mapRoom.put("Name", room.getTitle());
+
         return mapRoom;
     }
 
@@ -65,6 +70,10 @@ public class RoomController {
 
         Room room = roomRepo.findById(id).orElse(null);
 
+        if (room == null){
+            return ResponseEntity.notFound().build();
+        }
+
         room.setTitle(title);
         roomRepo.save(room);
 
@@ -76,6 +85,10 @@ public class RoomController {
     public ResponseEntity deleteRoom(@PathVariable("id") long id) {
 
         Room room = roomRepo.findById(id).orElse(null);
+
+        if (room == null){
+            return ResponseEntity.notFound().build();
+        }
 
         roomRepo.delete(room);
 

@@ -38,9 +38,13 @@ public class ToolController {
     @RequestMapping(value = "/tool/{id}", method=GET)
     public Map<String, Object> getTool(@PathVariable("id") long id) {
 
+        Map<String, Object> mapTool = new HashMap<>();
+
         Tool tool = toolRepo.findById(id).orElse(null);
 
-        Map<String, Object> mapTool = new HashMap<>();
+        if (tool == null){
+            return mapTool;
+        }
 
         mapTool.put("id", tool.getToolId());
         mapTool.put("Name", tool.getSpec());
@@ -68,6 +72,10 @@ public class ToolController {
 
         Tool tool = toolRepo.findById(id).orElse(null);
 
+        if (tool == null){
+            return ResponseEntity.notFound().build();
+        }
+
         tool.setSpec(spec);
 
         toolRepo.save(tool);
@@ -84,7 +92,6 @@ public class ToolController {
         if (tool == null){
             return ResponseEntity.notFound().build();
         }
-
 
         toolRepo.delete(tool);
 

@@ -1,5 +1,7 @@
 package com.factory.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -48,6 +50,7 @@ public class Sensor {
 
     @ManyToOne
     @JoinColumn(name = "toolId", nullable = true, referencedColumnName = "toolId")
+    @JsonIgnore
     private Tool tool;
 
 

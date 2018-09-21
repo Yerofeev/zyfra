@@ -1,7 +1,11 @@
 package com.factory.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Workshop {
@@ -12,17 +16,31 @@ public class Workshop {
 
     private String Name;
 
-    @OneToMany(orphanRemoval = true)
-    //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    //@JsonIdentityReference(alwaysAsId = false)
+    private Integer EmployeeCount;
+
+    public Workshop(String name, Integer employeeCount) {
+        Name = name;
+        EmployeeCount = employeeCount;
+
+    }
+
+    public Integer getEmployeeCount() {
+        return EmployeeCount;
+    }
+
+    public void setEmployeeCount(Integer employeeCount) {
+        EmployeeCount = employeeCount;
+    }
+
+
+
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "workshop")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Room> rooms;
 
     public Workshop(){
     }
 
-    public Workshop(String name) {
-        Name = name;
-    }
     public String getName() {
         return Name;
     }

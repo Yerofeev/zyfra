@@ -38,9 +38,13 @@ public class SensorController {
     @RequestMapping(value = "/sensor/{id}", method=GET)
     public Map<String, Object> getSensor(@PathVariable("id") long id) {
 
+        Map<String, Object> mapSensor = new HashMap<>();
+
         Sensor sensor = sensorRepo.findById(id).orElse(null);
 
-        Map<String, Object> mapSensor = new HashMap<>();
+        if (sensor == null){
+            return mapSensor;
+        }
 
         mapSensor.put("id", sensor.getSensorId());
         mapSensor.put("Docs", sensor.getDocs());
@@ -69,6 +73,10 @@ public class SensorController {
     public ResponseEntity updateRool(@PathVariable("id") long id, @RequestParam String docs, @RequestParam Integer price, @RequestParam String units) {
 
         Sensor sensor = sensorRepo.findById(id).orElse(null);
+
+        if (sensor == null){
+            return ResponseEntity.notFound().build();
+        }
 
         sensor.setDocs(docs);
         sensor.setPrice(price);

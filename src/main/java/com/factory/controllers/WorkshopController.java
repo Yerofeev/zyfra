@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.xml.ws.Response;
 import java.util.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -40,23 +39,28 @@ public class WorkshopController {
     @RequestMapping(value = "/workshop/{id}", method=GET)
     public Map<String, Object> getWorkshop(@PathVariable("id") long id) {
 
-        Workshop workshop = workshopRepo.findById(id).orElse(null);
-
         Map<String, Object> mapWorkshop = new HashMap<>();
 
-        mapWorkshop.put("id", workshop.getWorkshopId());
-        mapWorkshop.put("Name", workshop.getName());
+        Workshop workshop = workshopRepo.findById(id).orElse(null);
+
+        if (workshop == null){
+            return mapWorkshop;
+        }
+
         List<Long> rooms = new ArrayList<>();
         workshop.getRooms().forEach((room)-> rooms.add(room.getRoomId()));
         mapWorkshop.put("Rooms", rooms);
+        mapWorkshop.put("id", workshop.getWorkshopId());
+        mapWorkshop.put("Name", workshop.getName());
+
         return mapWorkshop;
     }
 
     @ResponseBody
     @RequestMapping(value = "/workshop", method=POST)
-    public Long addWorkshop(@RequestParam String name) {
+    public Long addWorkshop(@RequestParam String name, @RequestParam Integer count) {
 
-        Workshop workshop = new Workshop(name);
+        Workshop workshop = new Workshop(name, count);
 
         workshopRepo.save(workshop);
 
@@ -69,6 +73,10 @@ public class WorkshopController {
 
         Workshop workshop = workshopRepo.findById(id).orElse(null);
 
+        if (workshop == null){
+            return ResponseEntity.notFound().build();
+        }
+
         workshop.setName(name);
         workshopRepo.save(workshop);
 
@@ -80,6 +88,10 @@ public class WorkshopController {
     public ResponseEntity deleteWorkshop(@PathVariable("id") long id) {
 
         Workshop workshop = workshopRepo.findById(id).orElse(null);
+
+        if (workshop == null){
+            return ResponseEntity.notFound().build();
+        }
 
         workshopRepo.save(workshop);
 
