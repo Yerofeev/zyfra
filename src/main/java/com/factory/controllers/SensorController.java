@@ -4,6 +4,7 @@ import com.factory.entities.Tool;
 import com.factory.repos.SensorRepo;
 import com.factory.repos.ToolRepo;
 import com.factory.entities.Sensor;
+import com.factory.services.EntityFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +30,9 @@ public class SensorController {
     @Autowired
     private ToolRepo toolRepo;
 
+    @Autowired
+    private EntityFields entityFields;
+
     @ResponseBody
     @RequestMapping(value = "/sensors", method=GET)
     public List<Sensor> getSensors(@RequestParam Long toolId) {
@@ -35,7 +41,7 @@ public class SensorController {
 
     @ResponseBody
     @RequestMapping(value = "/sensor/{id}", method=GET)
-    public Map<String, Object> getSensor(@PathVariable("id") Long id) {
+    public Map<String, Object> getSensor(@PathVariable("id") Long id) throws IllegalAccessException, IntrospectionException, InvocationTargetException {
 
         Map<String, Object> mapSensor = new LinkedHashMap<>();
 
@@ -44,11 +50,7 @@ public class SensorController {
         if (sensor == null){
             return mapSensor;
         }
-
-        mapSensor.put("id", sensor.getSensorId());
-        mapSensor.put("Docs", sensor.getDocs());
-        mapSensor.put("Units", sensor.getUnits());
-        mapSensor.put("Price", sensor.getPrice());
+        mapSensor = entityFields.getEntityFields(sensor);
 
         return mapSensor;
     }

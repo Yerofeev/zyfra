@@ -4,6 +4,7 @@ import com.factory.entities.Room;
 import com.factory.entities.Tool;
 import com.factory.repos.RoomRepo;
 import com.factory.repos.ToolRepo;
+import com.factory.services.EntityFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -24,6 +27,9 @@ public class ToolController {
 
     @Autowired
     private ToolRepo toolRepo;
+
+    @Autowired
+    private EntityFields entityFields;
 
     @ResponseBody
     @RequestMapping(value = "/tools", method=GET)
@@ -45,7 +51,7 @@ public class ToolController {
 
     @ResponseBody
     @RequestMapping(value = "/tool/{id}", method=GET)
-    public Map<String, Object> getTool(@PathVariable("id") Long id) {
+    public Map<String, Object> getTool(@PathVariable("id") Long id) throws IllegalAccessException, IntrospectionException, InvocationTargetException {
 
         Map<String, Object> mapTool = new LinkedHashMap<>();
 
@@ -55,9 +61,7 @@ public class ToolController {
             return mapTool;
         }
 
-        mapTool.put("id", tool.getToolId());
-        mapTool.put("Name", tool.getSpec());
-        mapTool.put("NumberOfSensors", tool.getNumberOfSensors());
+        mapTool = entityFields.getEntityFields(tool);
 
         List<Long> sensors = new ArrayList<>();
         tool.getSensors().forEach((sensor)-> sensors.add(sensor.getSensorId()));

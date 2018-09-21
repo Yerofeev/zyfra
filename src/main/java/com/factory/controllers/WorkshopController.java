@@ -3,6 +3,7 @@ package com.factory.controllers;
 import com.factory.entities.Workshop;
 import com.factory.repos.RoomRepo;
 import com.factory.repos.WorkshopRepo;
+import com.factory.services.EntityFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -23,6 +26,9 @@ public class WorkshopController {
 
     @Autowired
     private WorkshopRepo workshopRepo;
+
+    @Autowired
+    private EntityFields entityFields;
 
     @ResponseBody
     @RequestMapping(value = "/workshops", method=GET)
@@ -44,7 +50,7 @@ public class WorkshopController {
 
     @ResponseBody
     @RequestMapping(value = "/workshop/{id}", method=GET)
-    public Map<String, Object> getWorkshop(@PathVariable("id") Long id) {
+    public Map<String, Object> getWorkshop(@PathVariable("id") Long id) throws IllegalAccessException, IntrospectionException, InvocationTargetException {
 
         Map<String, Object> mapWorkshop = new LinkedHashMap<>();
 
@@ -54,14 +60,11 @@ public class WorkshopController {
             return mapWorkshop;
         }
 
-        mapWorkshop.put("id", workshop.getWorkshopId());
-        mapWorkshop.put("Name", workshop.getName());
-        mapWorkshop.put("EmployeeCount", workshop.getEmployeeCount());
+        mapWorkshop = entityFields.getEntityFields(workshop);
 
         List<Long> rooms = new ArrayList<>();
         workshop.getRooms().forEach((room)-> rooms.add(room.getRoomId()));
         mapWorkshop.put("Rooms", rooms);
-
 
         return mapWorkshop;
     }

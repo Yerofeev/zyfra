@@ -4,11 +4,15 @@ import com.factory.entities.Room;
 import com.factory.entities.Workshop;
 import com.factory.repos.RoomRepo;
 import com.factory.repos.WorkshopRepo;
+import com.factory.services.EntityFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -21,6 +25,9 @@ public class RoomController {
 
     @Autowired
     private WorkshopRepo workshopRepo;
+
+    @Autowired
+    private EntityFields entityFields;
 
     @ResponseBody
     @RequestMapping(value = "/rooms", method=GET)
@@ -40,7 +47,7 @@ public class RoomController {
 
     @ResponseBody
     @RequestMapping(value = "/room/{id}", method=GET)
-    public Map<String, Object> getRoom(@PathVariable("id") long id) {
+    public Map<String, Object> getRoom(@PathVariable("id") long id) throws IllegalAccessException, IntrospectionException, InvocationTargetException {
 
         Map<String, Object> mapRoom = new LinkedHashMap<>();
 
@@ -50,9 +57,8 @@ public class RoomController {
             return mapRoom;
         }
 
-        mapRoom.put("id", room.getRoomId());
-        mapRoom.put("Name", room.getTitle());
-        mapRoom.put("Square", room.getSquare());
+        mapRoom = entityFields.getEntityFields(room);
+
         List<Long> tools = new ArrayList<>();
         room.getTools().forEach((tool)-> tools.add(tool.getToolId()));
         mapRoom.put("Rooms", tools);
