@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ToolRepo extends CrudRepository<Tool, Long> {
-    List<Tool> findByRoom_RoomId(Long RoomId);
+    List<Tool> findByRoom_Id(Long RoomId);
 }

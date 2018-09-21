@@ -36,7 +36,7 @@ public class SensorController {
     @ResponseBody
     @RequestMapping(value = "/sensors", method=GET)
     public List<Sensor> getSensors(@RequestParam Long toolId) {
-        return sensorRepo.findByTool_ToolId(toolId);
+        return sensorRepo.findByTool_Id(toolId);
     }
 
     @ResponseBody

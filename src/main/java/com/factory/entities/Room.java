@@ -1,5 +1,6 @@
 package com.factory.entities;
 
+import com.factory.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -8,11 +9,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Room {
+@Table(name = "Room")
+public class Room extends BaseEntity  {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long roomId;
 
     private String title;
 
@@ -27,7 +26,7 @@ public class Room {
     private Integer square;
 
     @ManyToOne
-    @JoinColumn(name = "Id", nullable = true, referencedColumnName = "Id")
+    @JoinColumn(name = "workshop_id", nullable = true, referencedColumnName = "id")
     @JsonIgnore
     private Workshop workshop;
 
@@ -58,14 +57,6 @@ public class Room {
     }
 
     public Room(){
-    }
-
-    public Long getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
     }
 
     public String getTitle() {

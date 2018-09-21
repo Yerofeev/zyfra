@@ -1,5 +1,6 @@
 package com.factory.entities;
 
+import com.factory.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -8,11 +9,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Tool {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long toolId;
+@Table(name = "Tool")
+public class Tool extends BaseEntity {
 
     private String spec;
 
@@ -47,7 +45,7 @@ public class Tool {
     }
 
     @ManyToOne
-    @JoinColumn(name = "roomId", nullable = true, referencedColumnName = "roomId")
+    @JoinColumn(name = "room_id", nullable = true, referencedColumnName = "id")
     @JsonIgnore
     private Room room;
 
@@ -60,14 +58,6 @@ public class Tool {
     }
 
     public Tool(){
-    }
-
-    public Long getToolId() {
-        return toolId;
-    }
-
-    public void setToolId(Long toolId) {
-        this.toolId = toolId;
     }
 
     public String getSpec() {

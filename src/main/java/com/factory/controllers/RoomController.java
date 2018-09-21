@@ -60,7 +60,7 @@ public class RoomController {
 
         mapRoom = entityFields.getEntityFields(room);
 
-        mapRoom.put("Tools", room.getTools().stream().map(tool->tool.getToolId()).collect(Collectors.toList()));
+        mapRoom.put("Tools", room.getTools().stream().map(tool->tool.getId()).collect(Collectors.toList()));
 
         return mapRoom;
     }

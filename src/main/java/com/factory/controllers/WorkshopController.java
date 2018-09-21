@@ -63,7 +63,7 @@ public class WorkshopController {
 
         mapWorkshop = entityFields.getEntityFields(workshop);
 
-        mapWorkshop.put("Rooms", workshop.getRooms().stream().map(room->room.getRoomId()).collect(Collectors.toList()));
+        mapWorkshop.put("Rooms", workshop.getRooms().stream().map(room->room.getId()).collect(Collectors.toList()));
 
         return mapWorkshop;
     }

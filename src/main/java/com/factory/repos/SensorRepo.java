@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface SensorRepo extends CrudRepository<Sensor, Long> {
-    List<Sensor> findByTool_ToolId(Long ToolId);
+    List<Sensor> findByTool_Id(Long ToolId);
 }

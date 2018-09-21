@@ -1,15 +1,13 @@
 package com.factory.entities;
 
+import com.factory.entities.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
 @Entity
-public class Sensor {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long sensorId;
+@Table(name = "Sensor")
+public class Sensor extends BaseEntity {
 
     private String docs;
 
@@ -49,20 +47,12 @@ public class Sensor {
     }
 
     @ManyToOne
-    @JoinColumn(name = "toolId", nullable = true, referencedColumnName = "toolId")
+    @JoinColumn(name = "tool_id", nullable = true, referencedColumnName = "id")
     @JsonIgnore
     private Tool tool;
 
 
     public Sensor(){
-    }
-
-    public Long getSensorId() {
-        return sensorId;
-    }
-
-    public void setSensorId(Long sensorId) {
-        this.sensorId = sensorId;
     }
 
     public String getDocs() {

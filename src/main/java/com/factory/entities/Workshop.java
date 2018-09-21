@@ -11,9 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "Workshop")
 public class Workshop extends BaseEntity {
-
-
 
     private String name;
 
@@ -22,7 +21,6 @@ public class Workshop extends BaseEntity {
     public Workshop(String name, Integer employeeCount) {
         this.name = name;
         this.employeeCount = employeeCount;
-
     }
 
     public Integer getEmployeeCount() {
@@ -32,8 +30,6 @@ public class Workshop extends BaseEntity {
     public void setEmployeeCount(Integer employeeCount) {
         this.employeeCount = employeeCount;
     }
-
-
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "workshop")
     @Fetch(value = FetchMode.SUBSELECT)

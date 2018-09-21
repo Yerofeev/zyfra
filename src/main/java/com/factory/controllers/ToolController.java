@@ -36,7 +36,7 @@ public class ToolController {
     @RequestMapping(value = "/tools", method=GET)
     public List<Tool> getTools(@RequestParam Long roomId) {
 
-        return toolRepo.findByRoom_RoomId(roomId);
+        return toolRepo.findByRoom_Id(roomId);
     }
 
 
@@ -64,7 +64,7 @@ public class ToolController {
 
         mapTool = entityFields.getEntityFields(tool);
 
-        mapTool.put("Sensors", tool.getSensors().stream().map(sensor->sensor.getSensorId()).collect(Collectors.toList()));
+        mapTool.put("Sensors", tool.getSensors().stream().map(sensor->sensor.getId()).collect(Collectors.toList()));
 
         return mapTool;
     }
@@ -72,10 +72,13 @@ public class ToolController {
     @ResponseBody
     @RequestMapping(value = "/tool", method=POST)
     public String addTool(@RequestParam String spec, @RequestParam Integer numberOfSensors, @RequestParam Long roomId) {
+
         Room room = roomRepo.findById(roomId).orElse(null);
+
         if (room != null) {
             Tool tool = new Tool(spec, numberOfSensors, room);
             toolRepo.save(tool);
+
             return spec;
         }
         else {
