@@ -40,7 +40,7 @@ public class RoomController {
         mapRoom.put("id", room.getRoomId());
         mapRoom.put("Name", room.getTitle());
         List<Long> tools = new ArrayList<>();
-        room.getTools().forEach((tool)-> tools.add(tool.getId()));
+        room.getTools().forEach((tool)-> tools.add(tool.getToolId()));
         mapRoom.put("Rooms", tools);
         return mapRoom;
     }

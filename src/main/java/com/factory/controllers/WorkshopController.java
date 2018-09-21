@@ -81,7 +81,7 @@ public class WorkshopController {
 
         Workshop workshop = workshopRepo.findById(id).orElse(null);
 
-        workshopRepo.delete(workshop);
+        workshopRepo.save(workshop);
 
         return  ResponseEntity.ok().build();
     }

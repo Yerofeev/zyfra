@@ -2,11 +2,8 @@ package com.factory.controllers;
 
 import com.factory.entities.Room;
 import com.factory.entities.Tool;
-import com.factory.entities.Workshop;
 import com.factory.repos.RoomRepo;
 import com.factory.repos.ToolRepo;
-import com.factory.repos.ToolRepo;
-import com.factory.repos.WorkshopRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +42,7 @@ public class ToolController {
 
         Map<String, Object> mapTool = new HashMap<>();
 
-        mapTool.put("id", tool.getId());
+        mapTool.put("id", tool.getToolId());
         mapTool.put("Name", tool.getSpec());
 
         return mapTool;
@@ -62,7 +58,7 @@ public class ToolController {
             return spec;
         }
         else {
-            return "Tool with this Id does not exist!";
+            return "Room with this Id does not exist!";
         }
     }
 

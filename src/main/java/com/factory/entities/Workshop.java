@@ -12,7 +12,7 @@ public class Workshop {
 
     private String Name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy="workshop",cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true)
     //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     //@JsonIdentityReference(alwaysAsId = false)
     private List<Room> rooms;

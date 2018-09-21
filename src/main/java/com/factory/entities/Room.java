@@ -19,7 +19,7 @@ public class Room {
     @JsonIgnore
     private Workshop workshop;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy="room")
+    @OneToMany(orphanRemoval = true)
     private List<Tool> tools;
 
     public Workshop getWorkshop() {
