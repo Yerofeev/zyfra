@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -62,9 +63,7 @@ public class WorkshopController {
 
         mapWorkshop = entityFields.getEntityFields(workshop);
 
-        List<Long> rooms = new ArrayList<>();
-        workshop.getRooms().forEach((room)-> rooms.add(room.getRoomId()));
-        mapWorkshop.put("Rooms", rooms);
+        mapWorkshop.put("Rooms", workshop.getRooms().stream().map(room->room.getRoomId()).collect(Collectors.toList()));
 
         return mapWorkshop;
     }

@@ -14,17 +14,17 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long roomId;
 
-    private String Title;
+    private String title;
 
     public Integer getSquare() {
-        return Square;
+        return square;
     }
 
     public void setSquare(Integer square) {
-        Square = square;
+        this.square = square;
     }
 
-    private Integer Square;
+    private Integer square;
 
     @ManyToOne
     @JoinColumn(name = "WorkshopId", nullable = true, referencedColumnName = "WorkshopId")
@@ -52,8 +52,8 @@ public class Room {
     }
 
     public Room(String Title, Integer Square, Workshop workshop) {
-        this.Title = Title;
-        this.Square = Square;
+        this.title = Title;
+        this.square = Square;
         this.workshop = workshop;
     }
 
@@ -69,11 +69,11 @@ public class Room {
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        this.Title = title;
+        this.title = title;
     }
 
 }

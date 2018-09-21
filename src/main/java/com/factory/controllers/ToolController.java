@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -63,9 +64,7 @@ public class ToolController {
 
         mapTool = entityFields.getEntityFields(tool);
 
-        List<Long> sensors = new ArrayList<>();
-        tool.getSensors().forEach((sensor)-> sensors.add(sensor.getSensorId()));
-        mapTool.put("Sensors", sensors);
+        mapTool.put("Sensors", tool.getSensors().stream().map(sensor->sensor.getSensorId()).collect(Collectors.toList()));
 
         return mapTool;
     }

@@ -13,22 +13,22 @@ public class Workshop {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long workshopId;
 
-    private String Name;
+    private String name;
 
-    private Integer EmployeeCount;
+    private Integer employeeCount;
 
     public Workshop(String name, Integer employeeCount) {
-        Name = name;
-        EmployeeCount = employeeCount;
+        this.name = name;
+        this.employeeCount = employeeCount;
 
     }
 
     public Integer getEmployeeCount() {
-        return EmployeeCount;
+        return employeeCount;
     }
 
     public void setEmployeeCount(Integer employeeCount) {
-        EmployeeCount = employeeCount;
+        this.employeeCount = employeeCount;
     }
 
 
@@ -41,11 +41,11 @@ public class Workshop {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public List<Room> getRooms() {

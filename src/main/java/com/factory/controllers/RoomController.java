@@ -14,6 +14,7 @@ import javax.swing.text.html.parser.Entity;
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -59,9 +60,7 @@ public class RoomController {
 
         mapRoom = entityFields.getEntityFields(room);
 
-        List<Long> tools = new ArrayList<>();
-        room.getTools().forEach((tool)-> tools.add(tool.getToolId()));
-        mapRoom.put("Rooms", tools);
+        mapRoom.put("Tools", room.getTools().stream().map(tool->tool.getToolId()).collect(Collectors.toList()));
 
         return mapRoom;
     }

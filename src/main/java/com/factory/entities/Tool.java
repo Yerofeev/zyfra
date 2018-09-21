@@ -14,7 +14,7 @@ public class Tool {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long toolId;
 
-    private String Spec;
+    private String spec;
 
     public Integer getNumberOfSensors() {
         return numberOfSensors;
@@ -54,7 +54,7 @@ public class Tool {
 
 
     public Tool(String Spec, Integer numberOfSensors, Room room) {
-        this.Spec = Spec;
+        this.spec = Spec;
         this.room = room;
         this.numberOfSensors = numberOfSensors;
     }
@@ -71,11 +71,11 @@ public class Tool {
     }
 
     public String getSpec() {
-        return Spec;
+        return spec;
     }
 
     public void setSpec(String spec) {
-        this.Spec = spec;
+        this.spec = spec;
     }
 
 }
