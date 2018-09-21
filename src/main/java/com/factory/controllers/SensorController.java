@@ -1,9 +1,9 @@
 package com.factory.controllers;
 
-import com.factory.entities.Sensor;
 import com.factory.entities.Tool;
 import com.factory.repos.SensorRepo;
 import com.factory.repos.ToolRepo;
+import com.factory.entities.Sensor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,15 +28,14 @@ public class SensorController {
     private ToolRepo toolRepo;
 
     @ResponseBody
-    @RequestMapping(value = "/sensor", method=GET)
-    public List<Sensor> getSensor(@RequestParam Long toolId) {
-
+    @RequestMapping(value = "/sensors", method=GET)
+    public List<Sensor> getSensors(@RequestParam Long toolId) {
         return sensorRepo.findByTool_ToolId(toolId);
     }
 
     @ResponseBody
     @RequestMapping(value = "/sensor/{id}", method=GET)
-    public Map<String, Object> getSensor(@PathVariable("id") long id) {
+    public Map<String, Object> getSensor(@PathVariable("id") Long id) {
 
         Map<String, Object> mapSensor = new LinkedHashMap<>();
 
@@ -71,7 +69,7 @@ public class SensorController {
 
     @ResponseBody
     @RequestMapping(value = "/sensor/{id}", method=PUT)
-    public ResponseEntity updateRool(@PathVariable("id") long id, @RequestParam String docs, @RequestParam Integer price, @RequestParam String units) {
+    public ResponseEntity updateRool(@PathVariable("id") Long id, @RequestParam String docs, @RequestParam Integer price, @RequestParam String units) {
 
         Sensor sensor = sensorRepo.findById(id).orElse(null);
 
@@ -90,7 +88,7 @@ public class SensorController {
 
     @ResponseBody
     @RequestMapping(value = "/sensor/{id}", method=DELETE)
-    public ResponseEntity deleteSensor(@PathVariable("id") long id) {
+    public ResponseEntity deleteSensor(@PathVariable("id") Long id) {
 
         Sensor sensor = sensorRepo.findById(id).orElse(null);
 

@@ -26,15 +26,26 @@ public class ToolController {
     private ToolRepo toolRepo;
 
     @ResponseBody
-    @RequestMapping(value = "/tool", method=GET)
-    public List<Tool> getTool(@RequestParam Long roomId) {
+    @RequestMapping(value = "/tools", method=GET)
+    public List<Tool> getTools(@RequestParam Long roomId) {
 
         return toolRepo.findByRoom_RoomId(roomId);
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/tool/full/{id}", method=GET)
+    public Tool getRoomWithChildren(@PathVariable("id") Long id) {
+
+        Tool tool = toolRepo.findById(id).orElse(null);
+
+        return tool;
+    }
+
+
     @ResponseBody
     @RequestMapping(value = "/tool/{id}", method=GET)
-    public Map<String, Object> getTool(@PathVariable("id") long id) {
+    public Map<String, Object> getTool(@PathVariable("id") Long id) {
 
         Map<String, Object> mapTool = new LinkedHashMap<>();
 
@@ -71,7 +82,7 @@ public class ToolController {
 
     @ResponseBody
     @RequestMapping(value = "/tool/{id}", method=PUT)
-    public ResponseEntity updateRool(@PathVariable("id") long id, @RequestParam String spec) {
+    public ResponseEntity updateRool(@PathVariable("id") Long id, @RequestParam String spec) {
 
         Tool tool = toolRepo.findById(id).orElse(null);
 
@@ -88,7 +99,7 @@ public class ToolController {
 
     @ResponseBody
     @RequestMapping(value = "/tool/{id}", method=DELETE)
-    public ResponseEntity deleteTool(@PathVariable("id") long id) {
+    public ResponseEntity deleteTool(@PathVariable("id") Long id) {
 
         Tool tool = toolRepo.findById(id).orElse(null);
 

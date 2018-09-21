@@ -1,7 +1,6 @@
 package com.factory.repos;
 
 import com.factory.entities.Sensor;
-import com.factory.entities.Tool;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

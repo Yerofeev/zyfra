@@ -23,10 +23,19 @@ public class RoomController {
     private WorkshopRepo workshopRepo;
 
     @ResponseBody
-    @RequestMapping(value = "/room", method=GET)
-    public List<Room> getRoom(@RequestParam Long workshopId) {
+    @RequestMapping(value = "/rooms", method=GET)
+    public List<Room> getRooms(@RequestParam Long workshopId) {
 
         return roomRepo.findByWorkshop_WorkshopId(workshopId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/room/full/{id}", method=GET)
+    public Room getRoomWithChildren(@PathVariable("id") Long id) {
+
+        Room room = roomRepo.findById(id).orElse(null);
+
+        return room;
     }
 
     @ResponseBody
@@ -67,7 +76,7 @@ public class RoomController {
 
     @ResponseBody
     @RequestMapping(value = "/room/{id}", method=PUT)
-    public ResponseEntity updateRoom(@PathVariable("id") long id, @RequestParam String title) {
+    public ResponseEntity updateRoom(@PathVariable("id") Long id, @RequestParam String title) {
 
         Room room = roomRepo.findById(id).orElse(null);
 
@@ -83,7 +92,7 @@ public class RoomController {
 
     @ResponseBody
     @RequestMapping(value = "/room/{id}", method=DELETE)
-    public ResponseEntity deleteRoom(@PathVariable("id") long id) {
+    public ResponseEntity deleteRoom(@PathVariable("id") Long id) {
 
         Room room = roomRepo.findById(id).orElse(null);
 
