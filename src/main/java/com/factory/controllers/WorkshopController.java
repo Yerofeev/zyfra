@@ -35,9 +35,7 @@ public class WorkshopController {
     @RequestMapping(value = "/workshops", method=GET)
     public Iterable<Workshop> getWorkshops() {
 
-        Iterable<Workshop> workshops = workshopRepo.findAll();
-
-        return workshops;
+        return workshopRepo.findAll();
     }
 
     @ResponseBody
