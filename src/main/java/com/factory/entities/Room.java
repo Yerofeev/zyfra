@@ -27,7 +27,7 @@ public class Room {
     private Integer square;
 
     @ManyToOne
-    @JoinColumn(name = "WorkshopId", nullable = true, referencedColumnName = "WorkshopId")
+    @JoinColumn(name = "Id", nullable = true, referencedColumnName = "Id")
     @JsonIgnore
     private Workshop workshop;
 

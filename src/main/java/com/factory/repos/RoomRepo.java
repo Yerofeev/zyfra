@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RoomRepo extends CrudRepository<Room, Long> {
-    List<Room> findByWorkshop_WorkshopId(Long WorkshopId);
+    List<Room> findByWorkshop_Id(Long Id);
 }

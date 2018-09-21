@@ -34,7 +34,7 @@ public class RoomController {
     @RequestMapping(value = "/rooms", method=GET)
     public List<Room> getRooms(@RequestParam Long workshopId) {
 
-        return roomRepo.findByWorkshop_WorkshopId(workshopId);
+        return roomRepo.findByWorkshop_Id(workshopId);
     }
 
     @ResponseBody

@@ -1,17 +1,19 @@
 package com.factory.entities;
 
+import com.factory.entities.base.BaseEntity;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Workshop {
+public class Workshop extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long workshopId;
+
 
     private String name;
 
@@ -56,12 +58,5 @@ public class Workshop {
         this.rooms = rooms;
     }
 
-    public Long getWorkshopId() {
-        return workshopId;
-    }
-
-    public void setWorkshopId(Long workshopId) {
-        this.workshopId = workshopId;
-    }
 
 }

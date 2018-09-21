@@ -76,7 +76,7 @@ public class WorkshopController {
 
         workshopRepo.save(workshop);
 
-        return workshop.getWorkshopId();
+        return workshop.getId();
     }
 
     @ResponseBody
