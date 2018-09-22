@@ -22,14 +22,18 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @Controller
 public class WorkshopController {
 
-    @Autowired
-    private RoomRepo roomRepo;
+    private final RoomRepo roomRepo;
+
+    private final WorkshopRepo workshopRepo;
+
+    private final EntityFields entityFields;
 
     @Autowired
-    private WorkshopRepo workshopRepo;
-
-    @Autowired
-    private EntityFields entityFields;
+    public WorkshopController(WorkshopRepo workshopRepo, RoomRepo roomRepo, EntityFields entityFields) {
+        this.roomRepo = roomRepo;
+        this.workshopRepo = workshopRepo;
+        this.entityFields = entityFields;
+    }
 
     @ResponseBody
     @RequestMapping(value = "/workshops", method=GET)
