@@ -1,7 +1,7 @@
 package com.factory.repos;
 
 import com.factory.entities.Workshop;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface WorkshopRepo extends CrudRepository<Workshop, Long> {
+public interface WorkshopRepo extends JpaRepository<Workshop, Long> {
 }
