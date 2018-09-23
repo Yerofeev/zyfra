@@ -17,7 +17,7 @@ Ways to run the program:
 2. Using maven: 
 maven clean package
 java -jar java -jar zyfra-enterprise-1.0.0.jar
-3.via Docker:
+3. via Docker:
 ./build.sh
 
 ## Usage
