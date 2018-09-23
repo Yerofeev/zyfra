@@ -1,7 +1,6 @@
 package com.factory.controllers;
 
 import com.factory.entities.Workshop;
-import com.factory.repos.RoomRepo;
 import com.factory.repos.WorkshopRepo;
 import com.factory.services.EntityFields;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;

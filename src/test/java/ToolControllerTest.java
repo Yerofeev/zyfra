@@ -1,9 +1,7 @@
 import com.factory.Application;
-import com.factory.controllers.RoomController;
 import com.factory.controllers.ToolController;
 import com.factory.entities.Room;
 import com.factory.entities.Tool;
-import com.factory.entities.Workshop;
 import com.factory.repos.RoomRepo;
 import com.factory.repos.SensorRepo;
 import com.factory.repos.ToolRepo;

@@ -1,8 +1,5 @@
 import com.factory.Application;
 import com.factory.controllers.SensorController;
-import com.factory.controllers.ToolController;
-import com.factory.entities.Room;
-import com.factory.entities.Sensor;
 import com.factory.entities.Tool;
 import com.factory.repos.RoomRepo;
 import com.factory.repos.SensorRepo;
@@ -26,13 +23,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
-import java.util.List;
-
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration

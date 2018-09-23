@@ -1,10 +1,9 @@
 package com.factory.controllers;
 
+import com.factory.entities.Sensor;
 import com.factory.entities.Tool;
-import com.factory.repos.RoomRepo;
 import com.factory.repos.SensorRepo;
 import com.factory.repos.ToolRepo;
-import com.factory.entities.Sensor;
 import com.factory.services.EntityFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -84,8 +83,14 @@ public class SensorController {
             return ResponseEntity.notFound().build();
         }
 
+        if (price != null) {
+            sensor.setPrice(price);
+        }
+        else {
+            return ResponseEntity.badRequest().build();
+        }
+
         sensor.setDocs(docs);
-        sensor.setPrice(price);
         sensor.setUnits(units);
 
         sensorRepo.save(sensor);

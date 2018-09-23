@@ -1,8 +1,5 @@
 package com.factory.services;
 
-import com.factory.entities.Room;
-import com.factory.entities.Sensor;
-import com.factory.entities.Tool;
 import org.springframework.stereotype.Component;
 
 import java.beans.IntrospectionException;

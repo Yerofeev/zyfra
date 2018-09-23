@@ -9,15 +9,9 @@ import com.factory.repos.SensorRepo;
 import com.factory.repos.ToolRepo;
 import com.factory.repos.WorkshopRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Component
 public class TestDataSet {

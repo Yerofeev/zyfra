@@ -28,7 +28,6 @@ import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
