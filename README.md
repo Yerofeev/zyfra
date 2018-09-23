@@ -15,8 +15,8 @@ App uses embedded H2 db.
 Ways to run the program:
 1. From your IDE
 2. Using maven: 
-`<maven clean package>`
-`<java -jar java -jar zyfra-enterprise-1.0.0.jar>`
+* `maven clean package`
+* `java -jar java -jar zyfra-enterprise-1.0.0.jar`
 3. via Docker:
 ./build.sh
 
