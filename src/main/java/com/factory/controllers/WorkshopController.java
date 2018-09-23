@@ -101,6 +101,7 @@ public class WorkshopController {
             return ResponseEntity.badRequest().build();
         }
 
+        workshop.setName(name);
         workshopRepo.save(workshop);
 
         return  ResponseEntity.ok().build();
@@ -116,7 +117,7 @@ public class WorkshopController {
             return ResponseEntity.notFound().build();
         }
 
-        workshopRepo.save(workshop);
+        workshopRepo.delete(workshop);
 
         return  ResponseEntity.ok().build();
     }
