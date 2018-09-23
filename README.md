@@ -1,13 +1,13 @@
 # Zyfra
 ## About
 APIs to work with hierarchical model of some factory:
-Workshop(s)--
-            |
-            Room(s)--
-                    |
-                    Tool(s)--
-                            |
-                            Sensor(s)
+Workshop(s)--  
+            |  
+            Room(s)--  
+                    |  
+                    Tool(s)--  
+                            |  
+                            Sensor(s)  
           
 App uses embedded H2 db.
 
