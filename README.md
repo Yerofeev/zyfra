@@ -1,5 +1,5 @@
-# zyfra
-##About
+# Zyfra
+## About
 APIs to work with hierarchical model of some factory:
 Workshop(s)--
             |
@@ -11,7 +11,7 @@ Workshop(s)--
           
 App uses embedded H2 db.
 
-##Installation
+## Installation
 Ways to run the program:
 1. From your IDE
 2. Using maven: 
@@ -20,7 +20,7 @@ java -jar java -jar zyfra-enterprise-1.0.0.jar
 3.via Docker:
 ./build.sh
 
-##Usage
+## Usage
 1. The swagger documentation will be available on: 
 http://localhost:8082/swagger-ui.html#
 List of APIs:
