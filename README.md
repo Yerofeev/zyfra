@@ -2,7 +2,7 @@
 ## About
 APIs to work with hierarchical model of some factory:
 <pre> 
-## Factory:
+<strong>Factory:</strong>
   Workshop(s)--  
               |  
               Room(s)--  
