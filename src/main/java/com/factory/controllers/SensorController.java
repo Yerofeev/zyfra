@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,8 @@ public class SensorController {
 
     @ResponseBody
     @RequestMapping(value = "/sensor/{id}", method=GET)
-    public Map<String, Object> getSensor(@PathVariable("id") Long id) throws IllegalAccessException, IntrospectionException, InvocationTargetException {
+    public Map<String, Object> getSensor(@PathVariable("id") Long id)
+            throws IllegalAccessException, IntrospectionException, InvocationTargetException {
 
         Map<String, Object> mapSensor = new LinkedHashMap<>();
 
@@ -54,15 +56,21 @@ public class SensorController {
         if (sensor == null){
             return mapSensor;
         }
-        mapSensor = entityFields.getEntityFields(sensor);
+
+        List<String> fieldsNotToBeFetched = Arrays.asList("tool");
+        mapSensor = entityFields.getEntityFields(sensor, fieldsNotToBeFetched);
 
         return mapSensor;
     }
 
     @ResponseBody
     @RequestMapping(value = "/sensor", method=POST)
-    public String addTool(@RequestParam String docs, @RequestParam Integer price, @RequestParam String units,  @RequestParam Long toolId) {
+    public String addTool(@RequestParam String docs, @RequestParam Integer price,
+                          @RequestParam String units,
+                          @RequestParam Long toolId) {
+
         Tool tool = toolRepo.findById(toolId).orElse(null);
+
         if (tool != null) {
             Sensor sensor = new Sensor(docs, units, price, tool);
             sensorRepo.save(sensor);
@@ -75,7 +83,10 @@ public class SensorController {
 
     @ResponseBody
     @RequestMapping(value = "/sensor/{id}", method=PUT)
-    public ResponseEntity updateRool(@PathVariable("id") Long id, @RequestParam String docs, @RequestParam Integer price, @RequestParam String units) {
+    public ResponseEntity updateRool(@PathVariable("id") Long id,
+                                     @RequestParam String docs,
+                                     @RequestParam Integer price,
+                                     @RequestParam String units) {
 
         Sensor sensor = sensorRepo.findById(id).orElse(null);
 

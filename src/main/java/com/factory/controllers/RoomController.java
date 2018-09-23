@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,8 @@ public class RoomController {
 
     @ResponseBody
     @RequestMapping(value = "/room/{id}", method=GET)
-    public Map<String, Object> getRoom(@PathVariable("id") long id) throws IllegalAccessException, IntrospectionException, InvocationTargetException {
+    public Map<String, Object> getRoom(@PathVariable("id") long id)
+            throws IllegalAccessException, IntrospectionException, InvocationTargetException {
 
         Map<String, Object> mapRoom = new LinkedHashMap<>();
 
@@ -66,7 +68,8 @@ public class RoomController {
             return mapRoom;
         }
 
-        mapRoom = entityFields.getEntityFields(room);
+        List<String> fieldsNotToBeFetched = Arrays.asList("tools", "workshop");
+        mapRoom = entityFields.getEntityFields(room, fieldsNotToBeFetched);
 
         mapRoom.put("Tools", room.getTools().stream().map(tool->tool.getId()).collect(Collectors.toList()));
 
@@ -76,7 +79,9 @@ public class RoomController {
     @ResponseBody
     @RequestMapping(value = "/room", method=POST)
     public String addRoom(@RequestParam String title, @RequestParam Integer square, @RequestParam Long workshopId) {
+
         Workshop workshop = workshopRepo.findById(workshopId).orElse(null);
+
         if (workshop != null) {
             Room room = new Room(title, square, workshop);
             roomRepo.save(room);
@@ -89,19 +94,23 @@ public class RoomController {
 
     @ResponseBody
     @RequestMapping(value = "/room/{id}", method=PUT)
-    public ResponseEntity updateRoom(@PathVariable("id") Long id, @RequestParam String title, @RequestParam Integer square) {
+    public ResponseEntity updateRoom(@PathVariable("id") Long id,
+                                     @RequestParam String title,
+                                     @RequestParam Integer square) {
 
         Room room = roomRepo.findById(id).orElse(null);
 
         if (room == null){
             return ResponseEntity.notFound().build();
         }
+
         if (square != null) {
             room.setSquare(square);
         }
         else {
             return ResponseEntity.badRequest().build();
         }
+
         room.setTitle(title);
         roomRepo.save(room);
 

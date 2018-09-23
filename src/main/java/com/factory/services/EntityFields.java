@@ -6,20 +6,22 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class EntityFields {
-    public <T> Map<String, Object> getEntityFields(T entity) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+    public <T> Map<String, Object> getEntityFields(T entity, List<String> fieldsNotToBeFetched)
+            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+
         Map<String, Object> map = new LinkedHashMap<>();
 
         for (Field field : entity.getClass().getDeclaredFields()) {
-            if (field.getName() != "rooms" && field.getName() != "tools" && field.getName() != "sensors"
-                    && field.getName() != "workshop"
-                    && field.getName() != "room"
-                    && field.getName() != "tool")
-            map.put(field.getName(), new PropertyDescriptor(field.getName(), entity.getClass()).getReadMethod().invoke(entity));
+
+            if (!fieldsNotToBeFetched.contains(field.getName())){
+                map.put(field.getName(), new PropertyDescriptor(field.getName(),
+                        entity.getClass()).getReadMethod().invoke(entity));
+            }
+
         }
         return map;
     }

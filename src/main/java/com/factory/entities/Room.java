@@ -12,16 +12,7 @@ import java.util.List;
 @Table(name = "Room")
 public class Room extends BaseEntity  {
 
-
     private String title;
-
-    public Integer getSquare() {
-        return square;
-    }
-
-    public void setSquare(Integer square) {
-        this.square = square;
-    }
 
     private Integer square;
 
@@ -33,6 +24,31 @@ public class Room extends BaseEntity  {
     @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "room")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Tool> tools;
+
+    public Room(){
+    }
+
+    public Room(String Title, Integer Square, Workshop workshop) {
+        this.title = Title;
+        this.square = Square;
+        this.workshop = workshop;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getSquare() {
+        return square;
+    }
+
+    public void setSquare(Integer square) {
+        this.square = square;
+    }
 
     public Workshop getWorkshop() {
         return workshop;
@@ -49,22 +65,4 @@ public class Room extends BaseEntity  {
     public void setTools(List<Tool> tools) {
         this.tools = tools;
     }
-
-    public Room(String Title, Integer Square, Workshop workshop) {
-        this.title = Title;
-        this.square = Square;
-        this.workshop = workshop;
-    }
-
-    public Room(){
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
 }

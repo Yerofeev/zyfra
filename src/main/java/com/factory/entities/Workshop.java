@@ -18,6 +18,13 @@ public class Workshop extends BaseEntity {
 
     private Integer employeeCount;
 
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "workshop")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Room> rooms;
+
+    public Workshop(){
+    }
+
     public Workshop(String name, Integer employeeCount) {
         this.name = name;
         this.employeeCount = employeeCount;
@@ -29,13 +36,6 @@ public class Workshop extends BaseEntity {
 
     public void setEmployeeCount(Integer employeeCount) {
         this.employeeCount = employeeCount;
-    }
-
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "workshop")
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Room> rooms;
-
-    public Workshop(){
     }
 
     public String getName() {
@@ -53,6 +53,5 @@ public class Workshop extends BaseEntity {
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
-
 
 }

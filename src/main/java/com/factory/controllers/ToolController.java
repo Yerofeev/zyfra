@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +70,8 @@ public class ToolController {
             return mapTool;
         }
 
-        mapTool = entityFields.getEntityFields(tool);
+        List<String> fieldsNotToBeFetched = Arrays.asList("sensors", "room");
+        mapTool = entityFields.getEntityFields(tool, fieldsNotToBeFetched);
 
         mapTool.put("Sensors", tool.getSensors().stream().map(sensor->sensor.getId()).collect(Collectors.toList()));
 

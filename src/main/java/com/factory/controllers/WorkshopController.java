@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -50,7 +52,8 @@ public class WorkshopController {
 
     @ResponseBody
     @RequestMapping(value = "/workshop/{id}", method=GET)
-    public Map<String, Object> getWorkshop(@PathVariable("id") Long id) throws IllegalAccessException, IntrospectionException, InvocationTargetException {
+    public Map<String, Object> getWorkshop(@PathVariable("id") Long id)
+            throws IllegalAccessException, IntrospectionException, InvocationTargetException {
 
         Map<String, Object> mapWorkshop = new LinkedHashMap<>();
 
@@ -60,7 +63,8 @@ public class WorkshopController {
             return mapWorkshop;
         }
 
-        mapWorkshop = entityFields.getEntityFields(workshop);
+        List<String> fieldsNotToBeFetched = Arrays.asList("rooms");
+        mapWorkshop = entityFields.getEntityFields(workshop, fieldsNotToBeFetched);
 
         mapWorkshop.put("Rooms", workshop.getRooms().stream().map(room->room.getId()).collect(Collectors.toList()));
 
@@ -80,7 +84,9 @@ public class WorkshopController {
 
     @ResponseBody
     @RequestMapping(value = "/workshop/{id}", method=PUT)
-    public ResponseEntity updateWorkshopById(@PathVariable("id") Long id, @RequestParam String name, @RequestParam Integer count) {
+    public ResponseEntity updateWorkshopById(@PathVariable("id") Long id,
+                                             @RequestParam String name,
+                                             @RequestParam Integer count) {
 
         Workshop workshop = workshopRepo.findById(id).orElse(null);
 
@@ -91,7 +97,6 @@ public class WorkshopController {
         if (count != null) {
             workshop.setEmployeeCount(count);
         }
-
         else {
             return ResponseEntity.badRequest().build();
         }

@@ -14,6 +14,26 @@ public class Tool extends BaseEntity {
 
     private String spec;
 
+    private Integer numberOfSensors;
+
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "tool")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Sensor> sensors;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = true, referencedColumnName = "id")
+    @JsonIgnore
+    private Room room;
+
+    public Tool(){
+    }
+
+    public Tool(String Spec, Integer numberOfSensors, Room room) {
+        this.spec = Spec;
+        this.room = room;
+        this.numberOfSensors = numberOfSensors;
+    }
+
     public Integer getNumberOfSensors() {
         return numberOfSensors;
     }
@@ -21,12 +41,6 @@ public class Tool extends BaseEntity {
     public void setNumberOfSensors(Integer numberOfSensors) {
         this.numberOfSensors = numberOfSensors;
     }
-
-    private Integer numberOfSensors;
-
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "tool")
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Sensor> sensors;
 
     public List<Sensor> getSensors() {
         return sensors;
@@ -42,22 +56,6 @@ public class Tool extends BaseEntity {
 
     public void setRoom(Room room) {
         this.room = room;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "room_id", nullable = true, referencedColumnName = "id")
-    @JsonIgnore
-    private Room room;
-
-
-
-    public Tool(String Spec, Integer numberOfSensors, Room room) {
-        this.spec = Spec;
-        this.room = room;
-        this.numberOfSensors = numberOfSensors;
-    }
-
-    public Tool(){
     }
 
     public String getSpec() {

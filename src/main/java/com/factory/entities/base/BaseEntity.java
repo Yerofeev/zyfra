@@ -14,6 +14,12 @@ public class BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @CreationTimestamp
+    private Date created;
+
+    @UpdateTimestamp
+    private Date updated;
+
     public Long getId() {
         return id;
     }
@@ -21,12 +27,6 @@ public class BaseEntity {
     public void setId(Long id) {
         this.id = id;
     }
-
-    @CreationTimestamp
-    private Date created;
-
-    @UpdateTimestamp
-    private Date updated;
 
     public Date getCreated() {
         return created;

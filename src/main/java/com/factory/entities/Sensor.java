@@ -13,6 +13,23 @@ public class Sensor extends BaseEntity {
 
     private String units;
 
+    private Integer price;
+
+    @ManyToOne
+    @JoinColumn(name = "tool_id", nullable = true, referencedColumnName = "id")
+    @JsonIgnore
+    private Tool tool;
+
+    public Sensor(){
+    }
+
+    public Sensor(String docs, String units, Integer price, Tool tool) {
+        this.docs = docs;
+        this.units = units;
+        this.price = price;
+        this.tool = tool;
+    }
+
     public String getUnits() {
         return units;
     }
@@ -35,24 +52,6 @@ public class Sensor extends BaseEntity {
 
     public void setTool(Tool tool) {
         this.tool = tool;
-    }
-
-    private Integer price;
-
-    public Sensor(String docs, String units, Integer price, Tool tool) {
-        this.docs = docs;
-        this.units = units;
-        this.price = price;
-        this.tool = tool;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "tool_id", nullable = true, referencedColumnName = "id")
-    @JsonIgnore
-    private Tool tool;
-
-
-    public Sensor(){
     }
 
     public String getDocs() {
