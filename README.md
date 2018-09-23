@@ -24,7 +24,7 @@ Ways to run the program:
 
 ## Usage
 1. App is available on:  
-localhost:8082/
+http://localhost:8082/
 2. The swagger documentation will be available on:  
 http://localhost:8082/swagger-ui.html#
 3. List of APIs:
