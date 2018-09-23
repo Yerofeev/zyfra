@@ -24,13 +24,13 @@ Ways to run the program:
 1. The swagger documentation will be available on: 
 http://localhost:8082/swagger-ui.html#
 List of APIs:
-*GET
-/entities  - returns all entities with sub-entities
-/entity/{id} -returns only one specified entity
-/entity/full/{id} - return specified entity with sub-entities
-*POST
-/entity  - create entity according to model (see Swagger/Postman for complete documentation)
-*/PUT
-/entity/{id} - change specified entity according to model
-*/DELETE
-/entity/{id} - delete specified entity with all sub-entities
+1. GET
+* /entities  - returns all entities with sub-entities
+* /entity/{id} -returns only one specified entity
+* /entity/full/{id} - return specified entity with sub-entities
+2. POST
+* /entity  - create entity according to model (see Swagger/Postman for complete documentation)
+3. PUT
+* /entity/{id} - change specified entity according to model
+4. DELETE
+* /entity/{id} - delete specified entity with all sub-entities
