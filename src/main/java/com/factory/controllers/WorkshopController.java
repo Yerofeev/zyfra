@@ -22,15 +22,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @Controller
 public class WorkshopController {
 
-    private final RoomRepo roomRepo;
+    private WorkshopRepo workshopRepo;
 
-    private final WorkshopRepo workshopRepo;
-
-    private final EntityFields entityFields;
+    private EntityFields entityFields;
 
     @Autowired
-    public WorkshopController(WorkshopRepo workshopRepo, RoomRepo roomRepo, EntityFields entityFields) {
-        this.roomRepo = roomRepo;
+    public WorkshopController(WorkshopRepo workshopRepo, EntityFields entityFields) {
         this.workshopRepo = workshopRepo;
         this.entityFields = entityFields;
     }
@@ -83,7 +80,7 @@ public class WorkshopController {
 
     @ResponseBody
     @RequestMapping(value = "/workshop/{id}", method=PUT)
-    public ResponseEntity updateWorkshop(@PathVariable("id") Long id, @RequestParam String name) {
+    public ResponseEntity updateWorkshopById(@PathVariable("id") Long id, @RequestParam String name, @RequestParam Integer count) {
 
         Workshop workshop = workshopRepo.findById(id).orElse(null);
 
@@ -91,7 +88,14 @@ public class WorkshopController {
             return ResponseEntity.notFound().build();
         }
 
-        workshop.setName(name);
+        if (count != null) {
+            workshop.setEmployeeCount(count);
+        }
+
+        else {
+            return ResponseEntity.badRequest().build();
+        }
+
         workshopRepo.save(workshop);
 
         return  ResponseEntity.ok().build();
@@ -99,7 +103,7 @@ public class WorkshopController {
 
     @ResponseBody
     @RequestMapping(value = "/workshop/{id}", method=DELETE)
-    public ResponseEntity deleteWorkshop(@PathVariable("id") Long id) {
+    public ResponseEntity deleteWorkshopById(@PathVariable("id") Long id) {
 
         Workshop workshop = workshopRepo.findById(id).orElse(null);
 
@@ -111,5 +115,4 @@ public class WorkshopController {
 
         return  ResponseEntity.ok().build();
     }
-
 }

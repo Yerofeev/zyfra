@@ -1,5 +1,6 @@
 import com.factory.Application;
-import com.factory.controllers.WorkshopController;
+import com.factory.controllers.RoomController;
+import com.factory.entities.Room;
 import com.factory.entities.Workshop;
 import com.factory.repos.RoomRepo;
 import com.factory.repos.SensorRepo;
@@ -7,9 +8,6 @@ import com.factory.repos.ToolRepo;
 import com.factory.repos.WorkshopRepo;
 import com.factory.services.EntityFields;
 import com.factory.services.TestDataSet;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,34 +21,25 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = Application.class)
 @DataJpaTest
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class WorkshopControllerTest {
+public class RoomControllerTest {
 
-    private WorkshopController workshopController;
+    private RoomController roomContoller;
 
     private MockMvc mockMvc;
 
@@ -73,8 +62,8 @@ public class WorkshopControllerTest {
     @BeforeEach
     void setUp() throws Exception {
 
-        workshopController = new WorkshopController(workshopRepo, entityFields);
-        mockMvc = MockMvcBuilders.standaloneSetup(workshopController)
+        roomContoller = new RoomController(roomRepo, workshopRepo, entityFields);
+        mockMvc = MockMvcBuilders.standaloneSetup(roomContoller)
                 .setHandlerExceptionResolvers(new ExceptionHandlerExceptionResolver()).build();
 
         testDataSet = new TestDataSet(workshopRepo, roomRepo, toolRepo, sensorRepo);
@@ -83,56 +72,60 @@ public class WorkshopControllerTest {
     }
 
     @Test
-    @DisplayName("method GET /workshops")
+    @DisplayName("method GET /rooms?workshopId=1")
     public void firstTest() throws Exception {
 
-        assertTrue(workshopRepo.findAll().size() == 2);
+        assertFalse(roomRepo.findAll().isEmpty());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/workshops").contentType(MediaType.TEXT_PLAIN))
+        mockMvc.perform(MockMvcRequestBuilders.get("/rooms").param("workshopId", "1").contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString(
-                        "\"name\":\"" + testDataSet.name1 + "\",\"employeeCount\":" + testDataSet.employeeCount1)))
+                        "\"title\":\"" + testDataSet.title1 + "\",\"square\":" + testDataSet.square1)))
                 .andExpect(content().string(
-                        containsString("\"name\":\"" + testDataSet.name2 + "\",\"employeeCount\":" +  testDataSet.employeeCount2 + ",\"rooms\":null")));
-
+                        containsString("\"title\":\"" + testDataSet.title2 + "\",\"square\":" +  testDataSet.square2)));
     }
 
     @Test
-    @DisplayName("method GET /workshop/full/2")
-    public void secondTest() throws Exception  {
+    @DisplayName("method GET /room/full/2")
+    public void secondTest() throws Exception {
 
-        assertFalse(workshopRepo.findByName(testDataSet.name1).isEmpty());
+        List<Room> listRoomsByTitle = roomRepo.findByTitle(testDataSet.title1);
+        assertFalse(listRoomsByTitle.isEmpty());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/workshop/full/2").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andDo(print())
-                .andExpect(jsonPath("name").value(testDataSet.name2));
+        for (Room room : listRoomsByTitle) {
+            mockMvc.perform(MockMvcRequestBuilders.get("/room/full/" + room.getId()).contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk()).andDo(print())
+                    .andExpect(jsonPath("title").value(room.getTitle()));
+        }
     }
 
     @Test
-    @DisplayName("method POST workshop/")
+    @DisplayName("method POST room/")
     public void thirdTest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/workshop").contentType(MediaType.APPLICATION_JSON)
-                .param("name","Omega").param("count", "111"))
+        Workshop workshop = workshopRepo.findById(1L).orElse(null);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/room?workshopId=1").contentType(MediaType.APPLICATION_JSON)
+                .param("title","Carbon").param("square", "700").param("workshop", workshop.toString()))
                 .andExpect(status().isOk());
 
     }
 
     @Test
-    @DisplayName("method PUT workshop/")
+    @DisplayName("method PUT room/")
     public void forthTest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/workshop/1").contentType(MediaType.APPLICATION_JSON)
-                .param("name","Omega").param("count", "111"))
+        mockMvc.perform(MockMvcRequestBuilders.put("/room/3").contentType(MediaType.APPLICATION_JSON)
+                .param("title","Omega").param("square", "777"))
                 .andExpect(status().isOk());
 
     }
 
     @Test
-    @DisplayName("method DELETE workshop/")
+    @DisplayName("method DELETE room/")
     public void fifthTest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/workshop/2").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/room/3").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
     }

@@ -4,6 +4,7 @@ import com.factory.entities.Room;
 import com.factory.entities.Tool;
 import com.factory.repos.RoomRepo;
 import com.factory.repos.ToolRepo;
+import com.factory.repos.WorkshopRepo;
 import com.factory.services.EntityFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +24,19 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @Controller
 public class ToolController {
 
-    @Autowired
     private RoomRepo roomRepo;
 
-    @Autowired
     private ToolRepo toolRepo;
 
-    @Autowired
     private EntityFields entityFields;
+
+    @Autowired
+    public ToolController( ToolRepo toolRepo, RoomRepo roomRepo, EntityFields entityFields) {
+        this.roomRepo = roomRepo;
+        this.toolRepo = toolRepo;
+        this.entityFields = entityFields;
+    }
+
 
     @ResponseBody
     @RequestMapping(value = "/tools", method=GET)
@@ -88,12 +94,19 @@ public class ToolController {
 
     @ResponseBody
     @RequestMapping(value = "/tool/{id}", method=PUT)
-    public ResponseEntity updateRool(@PathVariable("id") Long id, @RequestParam String spec) {
+    public ResponseEntity updateRool(@PathVariable("id") Long id, @RequestParam String spec, @RequestParam Integer numberOfSensors) {
 
         Tool tool = toolRepo.findById(id).orElse(null);
 
         if (tool == null){
             return ResponseEntity.notFound().build();
+        }
+
+        if (numberOfSensors != null) {
+            tool.setNumberOfSensors(numberOfSensors);
+        }
+        else {
+            return ResponseEntity.badRequest().build();
         }
 
         tool.setSpec(spec);

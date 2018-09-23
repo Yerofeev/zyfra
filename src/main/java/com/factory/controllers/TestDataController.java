@@ -9,6 +9,7 @@ import com.factory.repos.SensorRepo;
 import com.factory.repos.ToolRepo;
 import com.factory.repos.WorkshopRepo;
 import com.factory.services.EntityFields;
+import com.factory.services.TestDataSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,37 +31,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @Controller
 public class TestDataController {
 
-    @Autowired
-    private RoomRepo roomRepo;
+    private TestDataSet testDataSet;
 
-    @Autowired
-    private WorkshopRepo workshopRepo;
-
-    @Autowired
-    private ToolRepo toolRepo;
-
-    @Autowired
-    private SensorRepo sensorRepo;
+    public TestDataController(TestDataSet testDataSet) {
+        this.testDataSet = testDataSet;
+    }
 
     @ResponseBody
     @RequestMapping(value = "/testdata", method=GET)
     public ResponseEntity generateTestDataSet() {
 
-        Workshop workshop1 = new Workshop("ALFA", 100);
-        Workshop workshop2 = new Workshop("Beta", 30);
-        workshopRepo.saveAll(Arrays.asList(workshop1, workshop2));
-
-        Room room1 = new Room("Steel Casting", 1200, workshop1);
-        Room room2 = new Room("Metal Casting", 1100, workshop1);
-        roomRepo.saveAll(Arrays.asList(room1, room2));
-
-        Tool tool1 = new Tool("Spec1", 7, room1);
-        Tool tool2 = new Tool("Spec2", 12, room2);
-        toolRepo.saveAll(Arrays.asList(tool1, tool2));
-
-        Sensor sensor1 = new Sensor("TXT", "Farengeit", 1100, tool1);
-        Sensor sensor2 = new Sensor("DOC", "C", 777, tool1);
-        sensorRepo.saveAll(Arrays.asList(sensor1, sensor2));
+        testDataSet.generateTestDataSet();
 
         return  ResponseEntity.ok().body("DataSet successfully created");
     }

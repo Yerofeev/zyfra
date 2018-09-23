@@ -1,6 +1,7 @@
 package com.factory.controllers;
 
 import com.factory.entities.Tool;
+import com.factory.repos.RoomRepo;
 import com.factory.repos.SensorRepo;
 import com.factory.repos.ToolRepo;
 import com.factory.entities.Sensor;
@@ -24,17 +25,21 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @Controller
 public class SensorController {
 
-    @Autowired
     private SensorRepo sensorRepo;
 
-    @Autowired
     private ToolRepo toolRepo;
 
-    @Autowired
     private EntityFields entityFields;
 
+    @Autowired
+    public SensorController(SensorRepo sensorRepo, ToolRepo toolRepo, EntityFields entityFields) {
+        this.sensorRepo = sensorRepo;
+        this.toolRepo = toolRepo;
+        this.entityFields = entityFields;
+    }
+
     @ResponseBody
-    @RequestMapping(value = "/sensors", method=GET)
+    @RequestMapping(value = "/sensor", method=GET)
     public List<Sensor> getSensors(@RequestParam Long toolId) {
         return sensorRepo.findByTool_Id(toolId);
     }
@@ -57,8 +62,8 @@ public class SensorController {
 
     @ResponseBody
     @RequestMapping(value = "/sensor", method=POST)
-    public String addTool(@RequestParam String docs, @RequestParam Integer price, @RequestParam String units,  @RequestParam Long id) {
-        Tool tool = toolRepo.findById(id).orElse(null);
+    public String addTool(@RequestParam String docs, @RequestParam Integer price, @RequestParam String units,  @RequestParam Long toolId) {
+        Tool tool = toolRepo.findById(toolId).orElse(null);
         if (tool != null) {
             Sensor sensor = new Sensor(docs, units, price, tool);
             sensorRepo.save(sensor);

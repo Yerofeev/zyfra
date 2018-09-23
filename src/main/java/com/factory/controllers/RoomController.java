@@ -21,14 +21,18 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @Controller
 public class RoomController {
 
-    @Autowired
     private RoomRepo roomRepo;
 
-    @Autowired
     private WorkshopRepo workshopRepo;
 
-    @Autowired
     private EntityFields entityFields;
+
+    @Autowired
+    public RoomController( RoomRepo roomRepo, WorkshopRepo workshopRepo, EntityFields entityFields) {
+        this.roomRepo = roomRepo;
+        this.workshopRepo = workshopRepo;
+        this.entityFields = entityFields;
+    }
 
     @ResponseBody
     @RequestMapping(value = "/rooms", method=GET)
@@ -81,14 +85,19 @@ public class RoomController {
 
     @ResponseBody
     @RequestMapping(value = "/room/{id}", method=PUT)
-    public ResponseEntity updateRoom(@PathVariable("id") Long id, @RequestParam String title) {
+    public ResponseEntity updateRoom(@PathVariable("id") Long id, @RequestParam String title, @RequestParam Integer square) {
 
         Room room = roomRepo.findById(id).orElse(null);
 
         if (room == null){
             return ResponseEntity.notFound().build();
         }
-
+        if (square != null) {
+            room.setSquare(square);
+        }
+        else {
+            return ResponseEntity.badRequest().build();
+        }
         room.setTitle(title);
         roomRepo.save(room);
 
