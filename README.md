@@ -18,7 +18,7 @@ Ways to run the program:
 * `maven clean package`
 * `java -jar java -jar zyfra-enterprise-1.0.0.jar`
 3. via Docker:
-./build.sh
+* `./build.sh`
 
 ## Usage
 1. The swagger documentation will be available on: 
